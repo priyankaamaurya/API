@@ -31,7 +31,6 @@ public class TestController {
                 .orElse(0.0);
     }
 
-
     @GetMapping("/avg")
     public int avg(@RequestParam List<Integer> n, HttpServletResponse resp){
         Cookie cookie = new Cookie("a", "10");
