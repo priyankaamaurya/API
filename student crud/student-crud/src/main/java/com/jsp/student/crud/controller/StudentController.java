@@ -10,33 +10,39 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/students")
 public class StudentController {
 
     @Autowired
     StudentService service;
 
-    //Save student (create)
+    // CREATE
     @PostMapping("/save")
     public Student save(@RequestBody Student student) {
         return service.saveStudent(student);
     }
 
-    //Get all students (Read)
+    // READ ALL
     @GetMapping("/all")
     public List<Student> getAllStudents() {
         return service.findAll();
     }
 
+    // READ BY ID
+    @GetMapping("/{rol}")
+    public Student getStudentById(@PathVariable int rol) {
+        return service.findById(rol);
+    }
+
     // UPDATE
     @PutMapping("/update/{rol}")
-    public Student updateStudent(@PathVariable int rol,
-                                 @RequestBody Student student) {
+    public Student updateStudent(@PathVariable int rol, @RequestBody Student student) {
         return service.updateStudent(rol, student);
     }
 
     // DELETE
     @DeleteMapping("/delete/{rol}")
-    public String deleteStudent(@PathVariable Integer rol) {
+    public String deleteStudent(@PathVariable int rol) {
         service.deleteStudent(rol);
         return "Student deleted successfully with id: " + rol;
     }

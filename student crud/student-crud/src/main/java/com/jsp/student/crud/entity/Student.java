@@ -17,7 +17,7 @@ import lombok.Setter;
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int rol;
+    private Integer rol;
     private String name;
     private Long phone;
     private String email;

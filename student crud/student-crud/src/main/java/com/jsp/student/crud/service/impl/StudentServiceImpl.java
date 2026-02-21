@@ -40,6 +40,14 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.save(existingStudent);
     }
 
+
+    // FIND BY ID IMPLEMENTATION
+    @Override
+    public Student findById(Integer rol) {
+        return studentRepository.findById(rol)
+                .orElseThrow(() -> new RuntimeException("Student not found with id " + rol));
+    }
+
     // DELETE METHOD
     @Override
     public void deleteStudent(Integer rol) {
@@ -51,11 +59,5 @@ public class StudentServiceImpl implements StudentService {
         studentRepository.deleteById(rol);
     }
 
-    // FIND BY ID IMPLEMENTATION
-    @Override
-    public Student findById(Integer rol) {
-        return studentRepository.findById(rol)
-                .orElseThrow(() -> new RuntimeException("Student not found with id " + rol));
-    }
 
 }
