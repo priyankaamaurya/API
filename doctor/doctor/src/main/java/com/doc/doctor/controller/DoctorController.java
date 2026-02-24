@@ -14,7 +14,6 @@ public class DoctorController {
     @Autowired
     DoctorService service;
 
-
     @PostMapping("/save")
     public Doctor save(@RequestBody Doctor doctor){
         return service.saveDoctor(doctor);
