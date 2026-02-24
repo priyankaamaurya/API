@@ -1,4 +1,4 @@
-package com.mob.mobile.entity;
+package com.odr.orders.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,11 +14,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Mobile {
+public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String brand;
-    private String model;
-
+    private String productName;
+    private String status;
 }

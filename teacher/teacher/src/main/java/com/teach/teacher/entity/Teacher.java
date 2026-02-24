@@ -17,8 +17,8 @@ import lombok.Setter;
 public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer Tid;
-    private String TeacherName;
+    private Integer tId;
+    private String teacherName;
 
 
 }
