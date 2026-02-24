@@ -1,4 +1,7 @@
 package com.hotel.hotel.repository;
 
-public interface HotelRepository {
+import com.hotel.hotel.entity.Hotel;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface HotelRepository extends JpaRepository<Hotel, Integer> {
 }
