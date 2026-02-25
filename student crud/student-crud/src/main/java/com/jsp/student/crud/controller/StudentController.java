@@ -3,47 +3,62 @@ package com.jsp.student.crud.controller;
 import com.jsp.student.crud.entity.Student;
 import com.jsp.student.crud.repository.StudentRepository;
 import com.jsp.student.crud.service.StudentService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/students")
+@RequiredArgsConstructor
 public class StudentController {
 
-    @Autowired
-    StudentService service;
+    private final StudentService service;
 
+    @Operation(summary = "create object of student")
+    @ApiResponse(responseCode = "201", description = "it will create object")
+    @ApiResponse(responseCode = "400", description = "Invalid data")
     // CREATE
-    @PostMapping("/save")
-    public Student save(@RequestBody Student student) {
-        return service.saveStudent(student);
+    @PostMapping
+    public ResponseEntity<Student> save(@RequestBody Student student) {
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(service.saveStudent(student));
     }
 
     // READ ALL
-    @GetMapping("/all")
+    @GetMapping("/find")
     public List<Student> getAllStudents() {
         return service.findAll();
     }
 
     // READ BY ID
-    @GetMapping("/{rol}")
-    public Student getStudentById(@PathVariable int rol) {
-        return service.findById(rol);
+    @GetMapping
+    public ResponseEntity<Student> getStudentById(@PathVariable int rol) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(service.findById(rol));
     }
 
     // UPDATE
-    @PutMapping("/update/{rol}")
-    public Student updateStudent(@PathVariable int rol, @RequestBody Student student) {
-        return service.updateStudent(rol, student);
+    @PutMapping
+    public ResponseEntity<Student> updateStudent(@PathVariable int rol, @RequestBody Student student) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(service.updateStudent(rol, student));
     }
 
     // DELETE
-    @DeleteMapping("/delete/{rol}")
-    public String deleteStudent(@PathVariable int rol) {
+    @DeleteMapping
+    public ResponseEntity<String> deleteStudent(@PathVariable int rol) {
         service.deleteStudent(rol);
-        return "Student deleted successfully with id: " + rol;
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                .body("Student deleted successfully with id ");
     }
 }

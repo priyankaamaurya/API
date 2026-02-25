@@ -2,21 +2,33 @@ package com.emp.employee.controller;
 
 import com.emp.employee.entity.Employee;
 import com.emp.employee.service.EmployeeService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/employee")
+@RequiredArgsConstructor
 public class EmployeeController {
 
-    @Autowired
-    EmployeeService service;
+    private final EmployeeService service;
 
-    @PostMapping("/save")
-    public Employee save(@RequestBody Employee employee){
-        return service.saveEmployee(employee);
+    @Operation(summary = "object created of employeee")
+    @ApiResponse(responseCode = "201", description = "it will create object")
+    @ApiResponse(responseCode = "204", description = "invalid data")
+
+    @PostMapping
+    public ResponseEntity<Employee> save(@RequestBody Employee employee){
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(service.saveEmployee(employee));
     }
 
     @GetMapping("/all")
@@ -24,19 +36,25 @@ public class EmployeeController {
         return service.findAll();
     }
 
-    @GetMapping("/{empId}")
-    public Employee findEmployeeById(@PathVariable int empId){
-        return service.findById(empId);
+    @GetMapping
+    public ResponseEntity<Employee> findEmployeeById(@PathVariable int empId){
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(service.findById(empId));
     }
 
-    @GetMapping("/update/{empId}")
-    public Employee updateEmployee(@PathVariable int empId, @RequestBody Employee employee){
-        return service.updateEmployee(empId, employee);
+    @PutMapping
+    public ResponseEntity<Employee> updateEmployee(@PathVariable int empId, @RequestBody Employee employee){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(service.updateEmployee(empId, employee));
     }
 
-    @DeleteMapping("/delete/{empId}")
-    public String deleteEmployee(@PathVariable int empId){
+    @DeleteMapping
+    public ResponseEntity<String> deleteEmployee(@PathVariable int empId){
         service.deleteEmployee(empId);
-        return "Employee deleted successfully";
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .body("Employee deleted successfully");
     }
 }

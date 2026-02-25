@@ -2,21 +2,32 @@ package com.mob.mobile.controller;
 
 import com.mob.mobile.entity.Mobile;
 import com.mob.mobile.service.MobileService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/mobile")
+@RequiredArgsConstructor
 public class MobileController {
 
-    @Autowired
-    MobileService service;
+    private final MobileService service;
 
-    @PostMapping("/save")
-    public Mobile save(@RequestBody Mobile mobile){
-        return service.saveMobile(mobile);
+    @Operation(summary = "created object of mobile")
+    @ApiResponse(responseCode = "201", description = "it will create object")
+    @ApiResponse(responseCode = "204", description = "invalid data")
+
+    @PostMapping
+    public ResponseEntity<Mobile> save(@RequestBody Mobile mobile){
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(service.saveMobile(mobile));
     }
 
     @GetMapping("/all")
@@ -24,20 +35,26 @@ public class MobileController {
         return service.findAll();
     }
 
-    @GetMapping("/{id}")
-    public Mobile findMobileById(@PathVariable int id){
-        return service.findById(id);
+    @GetMapping
+    public ResponseEntity<Mobile> findMobileById(@PathVariable int id){
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(service.findById(id));
     }
 
-    @PutMapping("/update/{id}")
-    public Mobile updateMobile(@PathVariable int id, @RequestBody Mobile mobile){
-        return service.updateMobile(id, mobile);
+    @PutMapping
+    public ResponseEntity<Mobile> updateMobile(@PathVariable int id, @RequestBody Mobile mobile){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(service.updateMobile(id, mobile));
     }
 
-    @DeleteMapping("/delete/{id}")
-    public String deleteMobile(@PathVariable int id){
+    @DeleteMapping
+    public ResponseEntity<String> deleteMobile(@PathVariable int id){
         service.deleteMobile(id);
-        return "Mobile deleted successfully";
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .body("Mobile deleted successfully");
     }
 
 }

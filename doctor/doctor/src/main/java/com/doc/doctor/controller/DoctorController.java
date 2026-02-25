@@ -2,21 +2,32 @@ package com.doc.doctor.controller;
 
 import com.doc.doctor.entity.Doctor;
 import com.doc.doctor.service.DoctorService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/doctor")
+@RequiredArgsConstructor
 public class DoctorController {
 
-    @Autowired
-    DoctorService service;
+    private final DoctorService service;
 
-    @PostMapping("/save")
-    public Doctor save(@RequestBody Doctor doctor){
-        return service.saveDoctor(doctor);
+    @Operation(summary = "object created of doctor")
+    @ApiResponse(responseCode = "201", description = "it will create object")
+    @ApiResponse(responseCode = "204", description = "invalid data")
+
+    @PostMapping
+    public ResponseEntity<Doctor> save(@RequestBody Doctor doctor){
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(service.saveDoctor(doctor));
     }
 
     @GetMapping("/all")
@@ -24,20 +35,26 @@ public class DoctorController {
         return service.findAll();
     }
 
-    @GetMapping("/{id}")
-    public Doctor findDoctorById(@PathVariable int id){
-        return service.findById(id);
+    @GetMapping
+    public ResponseEntity<Doctor> findDoctorById(@PathVariable int id){
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(service.findById(id));
     }
 
-    @PutMapping("/update/{id}")
-    public Doctor updateDoctor(@PathVariable int id, @RequestBody Doctor doctor){
-        return service.updateDoctor(id, doctor);
+    @PutMapping
+    public ResponseEntity<Doctor> updateDoctor(@PathVariable int id, @RequestBody Doctor doctor){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(service.updateDoctor(id, doctor));
     }
 
-    @DeleteMapping("/delete/{id}")
-    public String deleteDoctor(@PathVariable int id){
+    @DeleteMapping
+    public ResponseEntity<String> deleteDoctor(@PathVariable int id){
         service.deleteDoctor(id);
-        return "Doctor deleted successfully";
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .body("Doctor deleted successfully");
     }
 
 }

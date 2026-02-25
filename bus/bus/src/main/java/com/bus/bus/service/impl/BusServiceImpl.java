@@ -27,13 +27,13 @@ public class BusServiceImpl implements BusService {
     @Override
     public Bus findById(int id) {
         return busRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Bus not found "));
+                .orElseThrow(() -> new RuntimeException("Bus Not found "));
     }
 
     @Override
     public Bus updateBus(int id, Bus bus) {
         Bus bus1 = busRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Bus not found "));
+                .orElseThrow(() -> new RuntimeException("Bus not Found "));
 
         return busRepository.save(bus);
     }

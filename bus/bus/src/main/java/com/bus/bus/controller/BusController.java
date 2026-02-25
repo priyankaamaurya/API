@@ -2,21 +2,32 @@ package com.bus.bus.controller;
 
 import com.bus.bus.entity.Bus;
 import com.bus.bus.service.BusService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/bus")
+@RequiredArgsConstructor
 public class BusController {
 
-    @Autowired
     BusService service;
 
-    @PostMapping("/save")
-    public Bus save(@RequestBody Bus bus){
-        return service.save(bus);
+    @Operation(summary = "object created of bus")
+    @ApiResponse(responseCode = "201", description = "it will create object")
+    @ApiResponse(responseCode = "204", description = "invalid data")
+
+    @PostMapping
+    public ResponseEntity<Bus> save(@RequestBody Bus bus){
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(service.save(bus));
     }
 
     @GetMapping("/all")
@@ -24,19 +35,25 @@ public class BusController {
         return service.findAll();
     }
 
-    @GetMapping("/{id}")
-    public Bus findBusById(@PathVariable int id){
-        return service.findById(id);
+    @GetMapping
+    public ResponseEntity<Bus> findBusById(@PathVariable int id){
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(service.findById(id));
     }
 
-    @PutMapping("/update/{id}")
-    public Bus updateBus(@PathVariable int id, @RequestBody Bus bus){
-        return service.updateBus(id, bus);
+    @PutMapping
+    public ResponseEntity<Bus> updateBus(@PathVariable int id, @RequestBody Bus bus){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(service.updateBus(id, bus));
     }
 
-    @DeleteMapping("/delete/{id}")
-    public String deleteBus(@PathVariable int id){
+    @DeleteMapping
+    public ResponseEntity<String> deleteBus(@PathVariable int id){
         service.deleteBus(id);
-        return "Bus deleted successfully";
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .body("Bus deleted successfully");
     }
 }

@@ -2,21 +2,32 @@ package com.odr.orders.controller;
 
 import com.odr.orders.entity.Orders;
 import com.odr.orders.service.OrdersService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/orders")
+@RequiredArgsConstructor
 public class OrdersController {
 
-    @Autowired
-    OrdersService service;
+    private final OrdersService service;
 
-    @PostMapping("/save")
-    public Orders save(@RequestBody Orders orders){
-        return service.save(orders);
+    @Operation(summary = "create object of orders")
+    @ApiResponse(responseCode = "201", description = "it will create object")
+    @ApiResponse(responseCode = "204", description = "invalid data")
+
+    @PostMapping
+    public ResponseEntity<Orders> save(@RequestBody Orders orders){
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(service.save(orders));
     }
 
     @GetMapping("/all")
@@ -24,19 +35,25 @@ public class OrdersController {
         return service.findAll();
     }
 
-    @GetMapping("/{id}")
-    public Orders findOrdersById(@PathVariable int id){
-        return service.findById(id);
+    @GetMapping
+    public ResponseEntity<Orders> findOrdersById(@PathVariable int id){
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(service.findById(id));
     }
 
-    @PutMapping("/update/{id}")
-    public Orders updateOrders(@PathVariable int id, @RequestBody Orders orders){
-        return service.updateOrders(id, orders);
+    @PutMapping
+    public ResponseEntity<Orders> updateOrders(@PathVariable int id, @RequestBody Orders orders){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(service.updateOrders(id, orders));
     }
 
-    @DeleteMapping("/delete/{id}")
-    public String deleteOrders(@PathVariable int id){
+    @DeleteMapping
+    public ResponseEntity<String> deleteOrders(@PathVariable int id){
         service.deleteOrders(id);
-        return "Orders deleted successfully";
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .body("Orders deleted successfully");
     }
 }
