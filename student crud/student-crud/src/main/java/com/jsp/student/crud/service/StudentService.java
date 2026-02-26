@@ -15,4 +15,6 @@ public interface StudentService {
     Student findById(Integer rol);
 
     void deleteStudent(Integer rol);
+
+    List<Student> findByEmail(String email);
 }

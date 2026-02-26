@@ -21,7 +21,7 @@ public class BusController {
 
     @Operation(summary = "object created of bus")
     @ApiResponse(responseCode = "201", description = "it will create object")
-    @ApiResponse(responseCode = "204", description = "invalid data")
+    @ApiResponse(responseCode = "400", description = "invalid data")
 
     @PostMapping
     public ResponseEntity<Bus> save(@RequestBody Bus bus){

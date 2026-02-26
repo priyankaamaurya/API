@@ -1,13 +1,10 @@
 package com.jsp.student.crud.controller;
 
 import com.jsp.student.crud.entity.Student;
-import com.jsp.student.crud.repository.StudentRepository;
 import com.jsp.student.crud.service.StudentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,8 +31,10 @@ public class StudentController {
 
     // READ ALL
     @GetMapping("/find")
-    public List<Student> getAllStudents() {
-        return service.findAll();
+    public ResponseEntity<List<Student>> getAllStudents() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(service.findAll());
     }
 
     // READ BY ID
@@ -59,6 +58,11 @@ public class StudentController {
     public ResponseEntity<String> deleteStudent(@PathVariable int rol) {
         service.deleteStudent(rol);
         return ResponseEntity.status(HttpStatus.NO_CONTENT)
-                .body("Student deleted successfully with id ");
+                .body("Student deleted successfully");
+    }
+
+    @GetMapping("/find/{email}")
+    public ResponseEntity<List<Student>> findByEmail(@PathVariable String email){
+        return ResponseEntity.ok(service.findByEmail(email));
     }
 }

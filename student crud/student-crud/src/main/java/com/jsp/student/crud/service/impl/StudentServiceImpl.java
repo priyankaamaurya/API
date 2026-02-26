@@ -1,6 +1,7 @@
 package com.jsp.student.crud.service.impl;
 
 import com.jsp.student.crud.entity.Student;
+import com.jsp.student.crud.exception.StudentException;
 import com.jsp.student.crud.repository.StudentRepository;
 import com.jsp.student.crud.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,11 @@ public class StudentServiceImpl implements StudentService {
     StudentRepository studentRepository;
 
     @Override
-    public Student saveStudent (Student student){
+    public Student saveStudent(Student student){
+        if (studentRepository.existsByEmail(student.getEmail()))
+            throw new StudentException("email is already exist");
         return studentRepository.save(student);
+
     }
 
     @Override
@@ -45,7 +49,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Student findById(Integer rol) {
         return studentRepository.findById(rol)
-                .orElseThrow(() -> new RuntimeException("Student not found with id " + rol));
+                .orElseThrow(() -> new RuntimeException("Student not found"));
     }
 
     // DELETE METHOD
@@ -53,10 +57,15 @@ public class StudentServiceImpl implements StudentService {
     public void deleteStudent(Integer rol) {
 
         if (!studentRepository.existsById(rol)) {
-            throw new RuntimeException("Student not found with id " + rol);
+            throw new RuntimeException("Student not found");
         }
 
         studentRepository.deleteById(rol);
+    }
+
+    @Override
+    public List<Student> findByEmail(String email) {
+        return studentRepository.findByEmail(email);
     }
 
 
