@@ -45,4 +45,9 @@ public class TeacherServiceImpl implements TeacherService {
 
         teacherRepository.delete(teacher);
     }
+
+    @Override
+    public List<Teacher> findByTeacherName(String teacherName) {
+        return teacherRepository.findByTeacherName(teacherName);
+    }
 }

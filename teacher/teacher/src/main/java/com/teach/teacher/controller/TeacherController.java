@@ -57,4 +57,9 @@ public class TeacherController {
                 .body("Teacher deleted successfully");
     }
 
+    @GetMapping("/find/{teacherName}")
+    public ResponseEntity<List<Teacher>> findByTeacherName(@PathVariable String teacherName){
+        return ResponseEntity.ok(service.findByTeacherName(teacherName));
+    }
+
 }
