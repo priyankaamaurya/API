@@ -1,11 +1,13 @@
 package com.cart.cart.service.impl;
 
 import com.cart.cart.entity.Cart;
+import com.cart.cart.exception.CartException;
 import com.cart.cart.repository.CartRepository;
 import com.cart.cart.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.smartcardio.CardException;
 import java.util.List;
 
 @Service
@@ -16,6 +18,8 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Cart saveCart(Cart cart) {
+        if (cartRepository.existsByCartItem(cart.getCartItem()))
+            throw new CartException("cartItem is already exist");
         return cartRepository.save(cart);
     }
 
@@ -44,6 +48,11 @@ public class CartServiceImpl implements CartService {
                 .orElseThrow(() -> new RuntimeException("Cart not found "));
 
         cartRepository.delete(cart);
+    }
+
+    @Override
+    public List<Cart> findByCartItem(String cartItem) {
+        return cartRepository.findByCartItem(cartItem);
     }
 
 

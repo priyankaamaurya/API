@@ -1,6 +1,7 @@
 package com.bus.bus.service.impl;
 
 import com.bus.bus.entity.Bus;
+import com.bus.bus.exception.BusException;
 import com.bus.bus.repository.BusRepository;
 import com.bus.bus.service.BusService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class BusServiceImpl implements BusService {
 
     @Override
     public Bus save(Bus bus) {
+        if (busRepository.existsByBusName(bus.getBusName()))
+            throw new BusException("Bus is already exist");
         return busRepository.save(bus);
     }
 
@@ -44,6 +47,11 @@ public class BusServiceImpl implements BusService {
                 .orElseThrow(() -> new RuntimeException("Bus not found "));
 
         busRepository.delete(bus);
+    }
+
+    @Override
+    public List<Bus> findByBusName(String busName) {
+        return busRepository.findByBusName(busName);
     }
 
 

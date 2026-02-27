@@ -56,4 +56,9 @@ public class CartController {
                 .status(HttpStatus.NO_CONTENT)
                 .body("Cart deleted successfully");
     }
+
+    @GetMapping("/find/{cartItem}")
+    public ResponseEntity<List<Cart>> findByCartItem(@PathVariable String cartItem){
+        return ResponseEntity.ok(service.findByCartItem(cartItem));
+    }
 }
