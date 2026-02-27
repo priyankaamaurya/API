@@ -5,7 +5,6 @@ import com.pay.payment.service.PaymentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +20,7 @@ public class PaymentController {
 
     @Operation(summary = "create object of payment")
     @ApiResponse(responseCode ="201", description = "it will create object")
-    @ApiResponse(responseCode = "204", description = "invalid data")
+    @ApiResponse(responseCode = "400", description = "invalid data")
 
     @PostMapping
     public ResponseEntity<Payment> save(@RequestBody Payment payment){
@@ -31,14 +30,16 @@ public class PaymentController {
     }
 
     @GetMapping("/all")
-    public List<Payment> findAllPayment(){
-        return service.findAll();
+    public ResponseEntity<List<Payment>> findAllPayment(){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(service.findAll());
     }
 
     @GetMapping
     public ResponseEntity<Payment> findPaymentById(@PathVariable int payId){
         return ResponseEntity
-                .status(HttpStatus.FOUND)
+                .status(HttpStatus.OK)
                 .body(service.findById(payId));
     }
 
@@ -55,5 +56,10 @@ public class PaymentController {
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)
                 .body("Payment deleted successfully");
+    }
+
+    @GetMapping("/find/{paymentMode}")
+    public ResponseEntity<List<Payment>> findByPaymentMode(@PathVariable String paymentMode){
+        return ResponseEntity.ok(service.findByPaymentMode(paymentMode));
     }
 }

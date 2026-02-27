@@ -1,6 +1,7 @@
 package com.per.person.service.impl;
 
 import com.per.person.entity.Person;
+import com.per.person.exception.PersonException;
 import com.per.person.repository.PersonRepository;
 import com.per.person.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public Person savePerson(Person person) {
+        if (personRepository.existsByName(person.getName()))
+            throw new PersonException("name is already exist");
         return personRepository.save(person);
     }
 
@@ -44,6 +47,11 @@ public class PersonServiceImpl implements PersonService {
                 .orElseThrow(() -> new RuntimeException("Person not found "));
 
         personRepository.delete(person);
+    }
+
+    @Override
+    public List<Person> findByName(String name) {
+        return personRepository.findByName(name);
     }
 
 

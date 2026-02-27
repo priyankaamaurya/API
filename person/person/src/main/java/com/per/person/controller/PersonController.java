@@ -57,4 +57,9 @@ public class PersonController {
                 .status(HttpStatus.NO_CONTENT)
                 .body("Person deleted successfully");
     }
+
+    @GetMapping("/find/{name}")
+    public ResponseEntity<List<Person>> findByName(@PathVariable String name){
+        return ResponseEntity.ok(service.findByName(name));
+    }
 }

@@ -1,6 +1,7 @@
 package com.odr.orders.service.impl;
 
 import com.odr.orders.entity.Orders;
+import com.odr.orders.exception.OrdersException;
 import com.odr.orders.repository.OrdersRepository;
 import com.odr.orders.service.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Override
     public Orders save(Orders orders) {
+        if (ordersRepository.existsByProductName(orders.getProductName()))
+            throw new OrdersException("product name already exist");
         return ordersRepository.save(orders);
     }
 
@@ -44,6 +47,11 @@ public class OrdersServiceImpl implements OrdersService {
                 .orElseThrow(() -> new RuntimeException("Order not found "));
 
         ordersRepository.delete(orders);
+    }
+
+    @Override
+    public List<Orders> findByProductName(String productName) {
+        return ordersRepository.findByProductName(productName);
     }
 
 

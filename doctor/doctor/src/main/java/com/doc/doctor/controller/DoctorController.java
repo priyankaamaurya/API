@@ -57,4 +57,8 @@ public class DoctorController {
                 .body("Doctor deleted successfully");
     }
 
+    @GetMapping("/find/{name}")
+    public ResponseEntity<List<Doctor>> findByName(@PathVariable String name){
+        return ResponseEntity.ok(service.findByName(name));
+    }
 }

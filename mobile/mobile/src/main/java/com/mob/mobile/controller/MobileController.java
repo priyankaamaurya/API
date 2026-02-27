@@ -21,7 +21,7 @@ public class MobileController {
 
     @Operation(summary = "created object of mobile")
     @ApiResponse(responseCode = "201", description = "it will create object")
-    @ApiResponse(responseCode = "204", description = "invalid data")
+    @ApiResponse(responseCode = "400", description = "invalid data")
 
     @PostMapping
     public ResponseEntity<Mobile> save(@RequestBody Mobile mobile){
@@ -55,6 +55,11 @@ public class MobileController {
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)
                 .body("Mobile deleted successfully");
+    }
+
+    @GetMapping("/find/{brand}")
+    public ResponseEntity<List<Mobile>> findByBrand(@PathVariable String brand){
+        return ResponseEntity.ok(service.findByBrand(brand));
     }
 
 }

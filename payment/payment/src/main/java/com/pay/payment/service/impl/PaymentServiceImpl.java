@@ -1,6 +1,7 @@
 package com.pay.payment.service.impl;
 
 import com.pay.payment.entity.Payment;
+import com.pay.payment.exception.PaymentException;
 import com.pay.payment.repository.PaymentRepository;
 import com.pay.payment.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Payment savePayment(Payment payment) {
+        if (paymentRepository.existsByPaymentMode(payment.getPaymentMode()))
+            throw new PaymentException("Payment is already exist");
         return paymentRepository.save(payment);
     }
 
@@ -45,6 +48,11 @@ public class PaymentServiceImpl implements PaymentService {
 
         paymentRepository.delete(payment);
 
+    }
+
+    @Override
+    public List<Payment> findByPaymentMode(String paymentMode) {
+        return paymentRepository.findByPaymentMode(paymentMode);
     }
 
 

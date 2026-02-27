@@ -1,6 +1,7 @@
 package com.hotel.hotel.service.impl;
 
 import com.hotel.hotel.entity.Hotel;
+import com.hotel.hotel.exception.HotelException;
 import com.hotel.hotel.repository.HotelRepository;
 import com.hotel.hotel.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public Hotel saveHotel(Hotel hotel) {
+        if (hotelRepository.existsByCity(hotel.getCity()))
+            throw new HotelException("city is already exist");
         return hotelRepository.save(hotel);
     }
 
@@ -44,6 +47,11 @@ public class HotelServiceImpl implements HotelService {
                     .orElseThrow(()-> new RuntimeException("Hotel Not Found"));
 
             hotelRepository.delete(hotel);
+    }
+
+    @Override
+    public List<Hotel> findByCity(String city) {
+        return hotelRepository.findByCity(city);
     }
 
 

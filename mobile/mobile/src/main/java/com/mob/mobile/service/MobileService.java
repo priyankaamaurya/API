@@ -1,6 +1,7 @@
 package com.mob.mobile.service;
 
 import com.mob.mobile.entity.Mobile;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface MobileService {
     Mobile updateMobile(int id, Mobile mobile);
 
     void deleteMobile(int id);
+
+    List<Mobile> findByBrand(String brand);
 }

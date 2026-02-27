@@ -1,6 +1,7 @@
 package com.mob.mobile.service.impl;
 
 import com.mob.mobile.entity.Mobile;
+import com.mob.mobile.exception.MobileException;
 import com.mob.mobile.repository.MobileRepository;
 import com.mob.mobile.service.MobileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class MobileServiceImpl implements MobileService {
 
     @Override
     public Mobile saveMobile(Mobile mobile) {
+        if (mobileRepository.existsByBrand(mobile.getBrand()))
+            throw new MobileException("brand is already exist");
         return mobileRepository.save(mobile);
     }
 
@@ -44,6 +47,11 @@ public class MobileServiceImpl implements MobileService {
                 .orElseThrow(() -> new RuntimeException("Mobile not found "));
 
         mobileRepository.save(mobile);
+    }
+
+    @Override
+    public List<Mobile> findByBrand(String brand) {
+        return mobileRepository.findByBrand(brand);
     }
 
 

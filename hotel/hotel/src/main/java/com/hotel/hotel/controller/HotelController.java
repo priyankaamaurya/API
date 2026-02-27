@@ -21,7 +21,7 @@ public class HotelController {
 
     @Operation(summary = "object created of hotel")
     @ApiResponse(responseCode = "201", description = "it will create object")
-    @ApiResponse(responseCode = "204", description = "invalid data")
+    @ApiResponse(responseCode = "400", description = "invalid data")
 
     @PostMapping
     public ResponseEntity<Hotel> save(@RequestBody Hotel hotel){
@@ -55,5 +55,10 @@ public class HotelController {
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)
                 .body("Hotel deleted successfully");
+    }
+
+    @GetMapping("/find/{city}")
+    public ResponseEntity<List<Hotel>> findByCity(@PathVariable String city){
+        return ResponseEntity.ok(service.findByCity(city));
     }
 }

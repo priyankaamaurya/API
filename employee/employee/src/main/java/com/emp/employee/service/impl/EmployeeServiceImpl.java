@@ -1,6 +1,7 @@
 package com.emp.employee.service.impl;
 
 import com.emp.employee.entity.Employee;
+import com.emp.employee.exception.EmployeeException;
 import com.emp.employee.repository.EmployeeRepository;
 import com.emp.employee.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee saveEmployee(Employee employee) {
+        if(employeeRepository.existsByEmpName(employee.getEmpName()))
+            throw new EmployeeException("empName is already exist");
         return employeeRepository.save(employee);
     }
 
@@ -44,6 +47,11 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .orElseThrow(() -> new RuntimeException("Employee not found "));
 
         employeeRepository.delete(employee);
+    }
+
+    @Override
+    public List<Employee> findByEmpName(String empName) {
+        return employeeRepository.findByEmpName(empName);
     }
 
 

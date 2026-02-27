@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface StudentRepository extends JpaRepository<Student,Integer> {
 
-//    @Query("select s from Student s where s.email=?1")
+    @Query("select s from Student s where s.email=?1")
     List<Student> findByEmail(String email);
 
     boolean existsByEmail(String email);

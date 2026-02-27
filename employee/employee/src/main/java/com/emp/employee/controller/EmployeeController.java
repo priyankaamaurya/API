@@ -57,4 +57,9 @@ public class EmployeeController {
                 .status(HttpStatus.NO_CONTENT)
                 .body("Employee deleted successfully");
     }
+
+    @GetMapping("/find/{empName}")
+    public ResponseEntity<List<Employee>> findByEmpName(@PathVariable String empName){
+        return ResponseEntity.ok(service.findByEmpName(empName));
+    }
 }

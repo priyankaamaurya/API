@@ -21,7 +21,7 @@ public class OrdersController {
 
     @Operation(summary = "create object of orders")
     @ApiResponse(responseCode = "201", description = "it will create object")
-    @ApiResponse(responseCode = "204", description = "invalid data")
+    @ApiResponse(responseCode = "400", description = "invalid data")
 
     @PostMapping
     public ResponseEntity<Orders> save(@RequestBody Orders orders){
@@ -55,5 +55,10 @@ public class OrdersController {
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)
                 .body("Orders deleted successfully");
+    }
+
+    @GetMapping("/find{productName}")
+    public ResponseEntity<List<Orders>> findByProductName(@PathVariable String productName){
+        return ResponseEntity.ok(service.findByProductName(productName));
     }
 }

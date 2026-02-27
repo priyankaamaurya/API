@@ -1,9 +1,11 @@
 package com.doc.doctor.service.impl;
 
 import com.doc.doctor.entity.Doctor;
+import com.doc.doctor.exception.DoctorException;
 import com.doc.doctor.repository.DoctorRepository;
 import com.doc.doctor.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +18,8 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public Doctor saveDoctor(Doctor doctor) {
+        if (doctorRepository.existsByName(doctor.getName()))
+            throw new DoctorException("name is already exist");
         return doctorRepository.save(doctor);
     }
 
@@ -44,6 +48,11 @@ public class DoctorServiceImpl implements DoctorService {
                 .orElseThrow(() -> new RuntimeException("Doctor not found "));
 
         doctorRepository.delete(doctor);
+    }
+
+    @Override
+    public List<Doctor> findByName(String name) {
+        return doctorRepository.findByName(name);
     }
 
 

@@ -1,6 +1,7 @@
 package com.teach.teacher.service.impl;
 
 import com.teach.teacher.entity.Teacher;
+import com.teach.teacher.exception.TeacherException;
 import com.teach.teacher.repository.TeacherRepository;
 import com.teach.teacher.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public Teacher saveTeacher(Teacher teacher) {
+        if(teacherRepository.existsByTeacherName(teacher.getTeacherName()))
+            throw new TeacherException("teacher name is already exist");
         return teacherRepository.save(teacher);
     }
 

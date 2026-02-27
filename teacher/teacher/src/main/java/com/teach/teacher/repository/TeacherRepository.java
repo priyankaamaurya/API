@@ -10,4 +10,6 @@ public interface TeacherRepository extends JpaRepository<Teacher,Integer> {
 
     @Query("select t from Teacher t where t.teacherName=?1")
     List<Teacher> findByTeacherName(String teacherName);
+
+    boolean existsByTeacherName(String teacherName);
 }

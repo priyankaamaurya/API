@@ -1,6 +1,7 @@
 package com.pay.payment.service;
 
 import com.pay.payment.entity.Payment;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
@@ -15,4 +16,7 @@ public interface PaymentService {
     Payment updatePayment(int payId, Payment payment);
 
     void deletePayment(int payId);
+
+    List<Payment> findByPaymentMode(String paymentMode);
+
 }
