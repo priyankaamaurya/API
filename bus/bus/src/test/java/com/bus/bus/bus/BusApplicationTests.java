@@ -1,4 +1,4 @@
-package com.bus.bus;
+package com.bus.bus.bus;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

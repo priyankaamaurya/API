@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BusController {
 
-    BusService service;
+    private final BusService service;
 
     @Operation(summary = "object created of bus")
     @ApiResponse(responseCode = "201", description = "it will create object")
@@ -30,8 +30,10 @@ public class BusController {
     }
 
     @GetMapping("/all")
-    public List<Bus> findAllDoctor(){
-        return service.findAll();
+    public ResponseEntity<List<Bus>> findAllDoctor(){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(service.findAll());
     }
 
     @GetMapping
