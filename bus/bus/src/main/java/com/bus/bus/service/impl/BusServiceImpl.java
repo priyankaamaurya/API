@@ -23,7 +23,7 @@ public class BusServiceImpl implements BusService {
     }
 
     @Override
-    public List<Bus> findAll() {
+    public List<Bus> findAll()   {
         return busRepository.findAll();
     }
 

@@ -21,6 +21,7 @@ public class StudentController {
     @Operation(summary = "create object of student")
     @ApiResponse(responseCode = "201", description = "it will create object")
     @ApiResponse(responseCode = "400", description = "Invalid data")
+
     // CREATE
     @PostMapping
     public ResponseEntity<Student> save(@RequestBody Student student) {
