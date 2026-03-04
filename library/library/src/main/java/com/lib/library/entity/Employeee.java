@@ -17,7 +17,7 @@ public class Employeee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer empNo;
-    private String eName;
+    private String EName;
     private String job;
     private int mgr;
     private LocalDate hireDate;

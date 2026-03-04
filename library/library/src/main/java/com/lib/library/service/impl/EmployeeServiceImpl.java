@@ -1,6 +1,8 @@
 package com.lib.library.service.impl;
 
 import com.lib.library.entity.Employeee;
+import com.lib.library.exception.DepartmentException;
+import com.lib.library.exception.EmployeeException;
 import com.lib.library.repository.EmployeeRepository;
 import com.lib.library.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employeee save(Employeee employeee) {
+        if (employeeRepository.existsByEName(employeee.getEName()))
+            throw new EmployeeException("Employee name already exist");
         return employeeRepository.save(employeee);
     }
 
@@ -25,22 +29,22 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employeee update(Integer empNo, Employeee employeee) {
+    public Employeee update(int empNo, Employeee employeee) {
         Employeee employeee1 = employeeRepository.findById(empNo)
                 .orElseThrow(()-> new RuntimeException("Employee not found"));
-        employeee1.setEName(employeee1.getEName());
-        employeee1.setJob(employeee1.getJob());
-        employeee1.setMgr(employeee1.getMgr());
-        employeee1.setHireDate(employeee1.getHireDate());
-        employeee1.setSal(employeee1.getSal());
-        employeee1.setComm(employeee1.getComm());
-        employeee1.setDeptNo(employeee1.getDeptNo());
+        employeee1.setEName(employeee.getEName());
+        employeee1.setJob(employeee.getJob());
+        employeee1.setMgr(employeee.getMgr());
+        employeee1.setHireDate(employeee.getHireDate());
+        employeee1.setSal(employeee.getSal());
+        employeee1.setComm(employeee.getComm());
+        employeee1.setDeptNo(employeee.getDeptNo());
 
         return employeeRepository.save(employeee1);
     }
 
     @Override
-    public void delete(Integer empNo) {
+    public void delete(int empNo) {
         Employeee employeee = employeeRepository.findById(empNo)
                 .orElseThrow(() -> new RuntimeException("Employee not found "));
 

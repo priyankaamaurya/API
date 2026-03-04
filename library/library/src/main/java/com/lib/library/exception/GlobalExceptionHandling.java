@@ -18,4 +18,9 @@ public class GlobalExceptionHandling {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(d.getMessage());
     }
 
+    @ExceptionHandler(EmployeeException.class)
+    public ResponseEntity<String> handleEmployeeException(EmployeeException d){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(d.getMessage());
+    }
+
 }

@@ -11,9 +11,9 @@ public interface EmployeeService {
 
     List<Employeee> findAll();
 
-    Employeee update(Integer empNo, Employeee employeee);
+    Employeee update(int empNo, Employeee employeee);
 
-    void delete(Integer empNo);
+    void delete(int empNo);
 
     List<Employeee> findByEName(String EName);
 }

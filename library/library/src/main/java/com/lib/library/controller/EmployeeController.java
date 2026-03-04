@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping
+@RequestMapping("/employeee")
 @RequiredArgsConstructor
 public class EmployeeController {
 
@@ -30,15 +30,15 @@ public class EmployeeController {
                 .body(service.findAll());
     }
 
-    @PostMapping("/{empNo}")
-    public ResponseEntity<Employeee> update(@PathVariable Integer empNo, @RequestBody Employeee employeee){
+    @PutMapping("/{empNo}")
+    public ResponseEntity<Employeee> update(@PathVariable int empNo, @RequestBody Employeee employeee){
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(service.update(empNo, employeee));
     }
 
     @DeleteMapping("/{empNo}")
-    public ResponseEntity<String> delete(@PathVariable Integer empNo){
+    public ResponseEntity<String> delete(@PathVariable int empNo){
         service.delete(empNo);
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)

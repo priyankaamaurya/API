@@ -10,4 +10,6 @@ import java.util.List;
 public interface EmployeeRepository extends JpaRepository<Employeee, Integer> {
 
     List<Employeee> findByEName(String eName);
+
+    boolean existsByEName(String EName);
 }
