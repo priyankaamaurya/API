@@ -20,7 +20,7 @@ public class Department {
     private String dName;
     private String loc;
 
-    @OneToMany(mappedBy = "dept")
+    @OneToMany(mappedBy = "deptNo")
     private List<Employeee> employee;
 
 }
